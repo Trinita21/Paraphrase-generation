@@ -27,7 +27,7 @@ function App() {
     const response = await fetch(
       "https://api-inference.huggingface.co/models/tuner007/pegasus_paraphrase",
       {
-        headers: { Authorization: "Bearer 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" },
+        headers: { Authorization: `Bearer ${process.env.REACT_APP_API_TOKEN}` },
         method: "POST",
         body: JSON.stringify(data),
       }
