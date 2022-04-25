@@ -1,23 +1,55 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import {useState} from "react"
+
+
+
 
 function App() {
+
+  const [user_input,setUser_input]=useState("");
+  const [output,setOutput]=useState("");
+  const [loading,setLoading]=useState(false)
+
+  function handleChange(event){
+    setUser_input(event.target.value);
+    
+  }
+  function handleSubmit(event){
+    event.preventDefault()
+    query({"inputs": user_input}).then((response) => {
+      setOutput(JSON.stringify(response[0].generated_text));
+      console.log(JSON.stringify(response[0].generated_text))
+    });
+  }
+
+  async function query(data) {
+    setLoading(true)
+    const response = await fetch(
+      "https://api-inference.huggingface.co/models/tuner007/pegasus_paraphrase",
+      {
+        headers: { Authorization: "Bearer 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" },
+        method: "POST",
+        body: JSON.stringify(data),
+      }
+    );
+    const result = await response.json();
+    setLoading(false)
+    return result;
+  }
+  
+  
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>Paraphrase</h1>
+      <form onSubmit={handleSubmit}>
+      <input type="text" placeholder="Enter your text here" onChange={handleChange} />
+      <button type="reset">Clear</button>
+      <button>Example Text</button>
+      <button type="submit">Submit</button>
+      </form>
+      {loading?"loading.....":""}
+      {output.slice(1, -1)}
     </div>
   );
 }
