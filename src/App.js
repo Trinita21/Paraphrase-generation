@@ -69,7 +69,7 @@ function App() {
             </div>
             <div class="flex items-center">
               <a
-                href="https://github.com/Trinita21/Data-Summarization"
+                href="https://github.com/Trinita21/Paraphrase-generation"
                 class="text-gray-900 text-lg px-1 mx-1 font-bold"
               >
                 Github
